@@ -2,25 +2,18 @@ import {
   Controller,
   UseGuards,
   Get,
-  Request,
+  Headers,
   Param,
   Delete,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UsersService } from "./users.service";
+import { LocalAuthGuard } from "src/auth/local-auth.guard";
 
 @Controller("users")
 @UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
-
-  @Get("me")
-  getCurrentUser(@Request() req) {
-    return {
-      user: req.user,
-      message: "Current user information",
-    };
-  }
 
   @Get()
   getAllUsers() {
@@ -33,8 +26,11 @@ export class UsersController {
   }
 
   @Delete(":id")
-  deleteUser(@Param("id") id: string) {
-    console.log(id);
-    return this.usersService.delete(id);
+  deleteUser(
+    @Param("id") id: string,
+    @Headers("authorization") authorization: string,
+  ) {
+    const token = authorization.replace("Bearer ", "");
+    return this.usersService.delete(id, token);
   }
 }
