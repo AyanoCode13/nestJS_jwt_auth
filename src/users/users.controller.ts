@@ -31,6 +31,7 @@ export class UsersController {
     @Headers("authorization") authorization: string,
   ) {
     const token = authorization.replace("Bearer ", "");
+    console.log(token);
     return this.usersService.delete(id, token);
   }
 }
