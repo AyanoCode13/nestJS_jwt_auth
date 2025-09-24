@@ -37,4 +37,9 @@ export class UsersService {
       ],
     });
   }
+
+  async delete(id: string): Promise<void> {
+    console.log(id);
+    this.userRepository.delete(id);
+  }
 }
