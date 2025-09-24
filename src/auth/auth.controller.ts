@@ -13,7 +13,6 @@ import {
 import { AuthService } from "./auth.service";
 import { RegisterDto } from "src/data/dto/register.dto";
 import { JwtAuthGuard } from "./jwt-auth.guard";
-import { LocalAuthGuard } from "./local-auth.guard";
 import { ForgotPasswordDto } from "src/data/dto/forgot-password.dto";
 import { ResetPasswordDto } from "src/data/dto/reset-password.dto";
 import { LoginDto } from "src/data/dto/login.dto";
@@ -23,6 +22,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post("register")
+  @HttpCode(HttpStatus.CREATED)
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
@@ -33,15 +33,6 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get("profile")
-  getProfile(@Request() req) {
-    console.log(req);
-    return {
-      user: req.user,
-      message: "This is a protected route",
-    };
-  }
   @UseGuards(JwtAuthGuard)
   @Post("logout")
   @HttpCode(HttpStatus.OK)

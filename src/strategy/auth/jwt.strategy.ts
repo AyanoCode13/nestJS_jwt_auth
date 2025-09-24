@@ -7,6 +7,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/data/entity/user.entity";
 import { Repository } from "typeorm";
 import { BlacklistedToken } from "src/data/entity/blacklisted_token";
+import { Request } from "express";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -29,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(req: any, payload: JwtPayload): Promise<User> {
+  async validate(req: Request, payload: JwtPayload): Promise<User> {
     // Extract token from Authorization header
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
 

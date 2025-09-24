@@ -10,7 +10,6 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private jwtService: JwtService,
   ) {}
 
   async findAll(): Promise<User[]> {

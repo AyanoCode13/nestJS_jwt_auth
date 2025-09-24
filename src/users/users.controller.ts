@@ -1,34 +1,48 @@
 import {
   Controller,
-  UseGuards,
-  Get,
-  Headers,
-  Param,
   Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Redirect,
   Request,
+  UseGuards,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UsersService } from "./users.service";
-import { LocalAuthGuard } from "src/auth/local-auth.guard";
+import { ResourceGuard } from "src/auth/resource.guard";
 
 @Controller("users")
 @UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Get()
-  getAllUsers() {
-    return this.usersService.findAll();
+  //Curent User Routes
+
+  @Get("me")
+  getCurrent(@Request() req) {
+    return req.user;
   }
+
+  @Patch("me")
+  editCurrent(@Request() req) {
+    //Edit Profile
+    return req.user;
+  }
+
+  @Delete("me")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deleteCurrent(@Request() req) {
+    return this.usersService.delete(req.user.id);
+  }
+
+  // Public User Routes
+  // Users can view each other's profile
 
   @Get(":id")
-  getUserById(@Param("id") id: string) {
+  getUser(@Param("id") id: string) {
     return this.usersService.findById(+id);
-  }
-
-  @UseGuards(LocalAuthGuard)
-  @Delete(":id")
-  deleteUser(@Request() req) {
-    return this.usersService.delete(req.params.id);
   }
 }
