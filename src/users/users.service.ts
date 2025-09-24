@@ -41,12 +41,7 @@ export class UsersService {
     });
   }
 
-  async delete(id: string, authorisation: string): Promise<void> {
-    const { sub } = this.jwtService.decode<JwtPayload>(authorisation);
-    console.log(sub);
-    if (sub.toString() != id) {
-      throw new UnauthorizedException("User is unauthorised");
-    }
+  async delete(id: string): Promise<void> {
     this.userRepository.delete(id);
   }
 }

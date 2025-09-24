@@ -25,13 +25,9 @@ export class UsersController {
     return this.usersService.findById(+id);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Delete(":id")
-  deleteUser(
-    @Param("id") id: string,
-    @Headers("authorization") authorization: string,
-  ) {
-    const token = authorization.replace("Bearer ", "");
-    console.log(token);
-    return this.usersService.delete(id, token);
+  deleteUser(@Param("id") id: string) {
+    return this.usersService.delete(id);
   }
 }

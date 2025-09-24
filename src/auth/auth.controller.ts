@@ -36,6 +36,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get("profile")
   getProfile(@Request() req) {
+    console.log(req);
     return {
       user: req.user,
       message: "This is a protected route",
