@@ -11,29 +11,29 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { UsersService } from "./users.service";
+import { UsersService } from "./user.service";
 
-@Controller("users")
+@Controller("user")
 @UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   //Curent User Routes
 
-  @Get("me")
-  getCurrent(@Request() req) {
+  @Get()
+  get(@Request() req) {
     return req.user;
   }
 
-  @Patch("me")
-  editCurrent(@Request() req) {
+  @Patch()
+  edit(@Request() req) {
     //Edit Profile
     return req.user;
   }
 
-  @Delete("me")
+  @Delete()
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteCurrent(@Request() req) {
+  delete(@Request() req) {
     return this.usersService.delete(req.user.id);
   }
 
@@ -41,7 +41,7 @@ export class UsersController {
   // Users can view each other's profile
 
   @Get(":id")
-  getUser(@Param("id") id: string) {
+  getById(@Param("id") id: string) {
     return this.usersService.findById(+id);
   }
 }

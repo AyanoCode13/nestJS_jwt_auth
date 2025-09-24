@@ -5,7 +5,7 @@ import { AuthModule } from "./auth/auth.module";
 import { BlacklistedToken } from "./data/entity/blacklisted_token";
 import { User } from "./data/entity/user.entity";
 import { EmailModule } from "./email/email.module";
-import { UsersModule } from "./users/users.module";
+import { UsersModule } from "./user/user.module";
 
 @Module({
   imports: [
