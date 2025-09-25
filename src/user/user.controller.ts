@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Redirect,
   Request,
   UseGuards,
 } from "@nestjs/common";
